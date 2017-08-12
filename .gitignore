@@ -1,0 +1,6 @@
+config_user.py
+
+venv/
+
+*.pyc
+.ropeproject/

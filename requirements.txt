@@ -1,0 +1,4 @@
+clamd
+MySQL-python
+python-ldap
+spamc
