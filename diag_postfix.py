@@ -1,34 +1,36 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import socket
 import smtplib
 
 import config_user
 
+from common import show_ok, show_ko
 
-def test(username=config_user.USER, password=config_user.PASSWORD):
+
+def test(username=config_user.USER,
+         password=config_user.PASSWORD,
+         server='localhost',
+         port=587):
     try:
         smtp = smtplib.SMTP()
-        smtp.connect('localhost', 587)
+        smtp.connect(server, port)
         smtp.ehlo()
         smtp.starttls()
         smtp.ehlo()
         smtp.login(username, password)
-        print('Postfix \033[32mOK\033[37m')
+        show_ok('Postfix')
     except smtplib.SMTPResponseException, e:
-        print('Postfix \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart postfix.service')
+        show_ko('Postfix', 'Try: systemctl restart postfix.service', e)
     except smtplib.SMTPAuthenticationError, e:
-        print('Postfix \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart postfix.service')
+        show_ko('Postfix', 'Try: systemctl restart postfix.service', e)
     except socket.error, e:
-        print('Postfix \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart postfix.service')
+        show_ko('Postfix', 'Try: systemctl restart postfix.service', e)
 
 
 if __name__ == '__main__':
     test()
     print('=' * 80)
     test(password=config_user.BAD_PASSWORD)
+    print('=' * 80)
+    test(port=588)

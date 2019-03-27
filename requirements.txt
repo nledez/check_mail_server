@@ -2,3 +2,4 @@ clamd
 MySQL-python
 python-ldap
 spamc
+ntplib

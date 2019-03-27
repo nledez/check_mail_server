@@ -1,16 +1,19 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import clamd
+
+from common import show_ok, show_ko
 
 
 def test(socket='/var/run/clamav/clamd.ctl'):
     try:
         client = clamd.ClamdUnixSocket(socket)
         client.ping()
-        print('ClamavDeamon \033[32mOK\033[37m')
+        show_ok('ClamavDeamon')
     except clamd.ConnectionError, e:
-        print('ClamavDeamon \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart clamav-daemon.socket')
+        show_ko('ClamavDeamon',
+                'Try: systemctl restart clamav-daemon.socket',
+                e)
 
 
 if __name__ == '__main__':

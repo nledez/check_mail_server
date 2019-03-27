@@ -1,13 +1,16 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import os.path
+
+from common import show_ok, show_ko
 
 
 def test(socket_path='/var/spool/postfix/clamav/clamav-milter.ctl'):
     if os.path.exists(socket_path):
-        print('Clamav-milter \033[32mOK\033[37m')
+        show_ok('Clamav-milter')
     else:
-        print('Clamav-milter \033[31mKO\033[37m')
-        print('Try: systemctl restart clamav-milter.service')
+        show_ko('Clamav-milter',
+                'Try: systemctl restart clamav-milter.service')
 
 
 if __name__ == '__main__':

@@ -1,18 +1,19 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import spamc
 
 import config_user
+
+from common import show_ok, show_ko
 
 
 def test(server='127.0.0.1'):
     try:
         client = spamc.SpamC(server)
         client.ping()
-        print('SpamD \033[32mOK\033[37m')
+        show_ok('SpamD')
     except spamc.exceptions.SpamCError, e:
-        print('SpamD \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart spamassassin.service')
+        show_ko('SpamD', 'Try: systemctl restart spamassassin.service', e)
 
 
 if __name__ == '__main__':

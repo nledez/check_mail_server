@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import subprocess
 
 import config_user
+
+from common import show_ok, show_ko
 
 
 def test(username=config_user.USER, password=config_user.PASSWORD,
@@ -13,15 +16,19 @@ def test(username=config_user.USER, password=config_user.PASSWORD,
                          close_fds=True)
     p.wait()
     if p.returncode == 0:
-        print('SASL \033[32mOK\033[37m')
+        show_ok('SASL')
     else:
-        print('SASL \033[31mKO\033[37m')
-        print('Failed with mux: {}'.format(mux))
-        print('\n'.join(p.stdout.readlines()))
+        hint = []
+        error = []
+        error.append('Failed with mux: {}'.format(mux))
+        for line in p.stdout.readlines():
+            error.append(line)
         if mux == '/var/run/saslauthd/mux':
-            print('Try: ln -s /var/spool/postfix/var/run/saslauthd \
-                /var/run/saslauthd')
-        print('Try: systemctl restart saslauthd.service')
+            hint.append('Try: ln -s /var/spool/postfix/var/run/saslauthd /var/run/saslauthd')
+        hint.append('Try: systemctl restart saslauthd.service')
+        show_ko('SASL',
+                '\n'.join(hint),
+                '\n'.join(error))
 
 
 if __name__ == '__main__':

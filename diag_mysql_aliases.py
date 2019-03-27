@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import MySQLdb
 import sys
 
 import config_user
+from common import show_ok, show_ko
 
 
 def test(db_user=config_user.DB_USER, db_pass=config_user.DB_PASS,
@@ -12,12 +14,10 @@ def test(db_user=config_user.DB_USER, db_pass=config_user.DB_PASS,
         cur = db.cursor()
         cur.execute(db_query)
         cur.rowcount
-        print('MysqlAliases \033[32mOK\033[37m')
+        show_ok('MysqlAliases')
     except:
         e = sys.exc_info()
-        print('MysqlAliases \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart mysql.service')
+        show_ko('MysqlAliases', 'Try: systemctl restart mysql.service', e)
 
 
 if __name__ == '__main__':

@@ -1,18 +1,19 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import socket
 
 import config_user
+
+from common import show_ok, show_ko
 
 
 def test(server='127.0.0.1', port=12301):
     try:
         s = socket.socket()
         s.connect((server, port))
-        print('OpenDKIM \033[32mOK\033[37m')
+        show_ok('OpenDKIM')
     except socket.error, e:
-        print('OpenDKIM \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart opendkim.service')
+        show_ko('OpenDKIM', 'Try: systemctl restart opendkim.service', e)
 
 
 if __name__ == '__main__':

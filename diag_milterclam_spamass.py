@@ -1,13 +1,16 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import os.path
+
+from common import show_ok, show_ko
 
 
 def test(socket_path='/var/spool/postfix/spamass/spamass.sock'):
     if os.path.exists(socket_path):
-        print('Spamassassin-milter \033[32mOK\033[37m')
+        show_ok('Spamassassin-milter')
     else:
-        print('Spamassassin-milter \033[31mKO\033[37m')
-        print('Try: systemctl restart spamass-milter.service')
+        show_ko('Spamassassin-milter',
+                'Try: systemctl restart spamass-milter.service')
 
 
 if __name__ == '__main__':

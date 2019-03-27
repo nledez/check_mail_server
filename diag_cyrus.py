@@ -1,23 +1,22 @@
 #!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 import imaplib
 import socket
 
 import config_user
+
+from common import show_ok, show_ko
 
 
 def test(username=config_user.USER, password=config_user.PASSWORD):
     try:
         imap = imaplib.IMAP4('localhost', 143)
         imap.login(username, password)
-        print('Cyrus \033[32mOK\033[37m')
+        show_ok('Cyrus')
     except socket.error, e:
-        print('Cyrus \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart cyrus-imapd.service')
+        show_ko('Cyrus', 'Try: systemctl restart cyrus-imapd.service', e)
     except imaplib.IMAP4.error, e:
-        print('Cyrus \033[31mKO\033[37m')
-        print(e)
-        print('Try: systemctl restart cyrus-imapd.service')
+        show_ko('Cyrus', 'Try: systemctl restart cyrus-imapd.service', e)
 
 
 if __name__ == '__main__':
